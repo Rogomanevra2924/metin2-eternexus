@@ -13,13 +13,6 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-
-      - name: Restore (optional, dacă există NuGet)
-        run: |
-          if exist EterNexus\EterNexus.sln (
-            echo Restoring...
-          )
-
       - name: Build EterNexus (Release)
         run: |
           msbuild EterNexus\EterNexus.sln /p:Configuration=Release
