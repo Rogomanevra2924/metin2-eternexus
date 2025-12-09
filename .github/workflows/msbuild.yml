@@ -1,0 +1,33 @@
+name: Build EterNexus
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore (optional, dacă există NuGet)
+        run: |
+          if exist EterNexus\EterNexus.sln (
+            echo Restoring...
+          )
+
+      - name: Build EterNexus (Release)
+        run: |
+          msbuild EterNexus\EterNexus.sln /p:Configuration=Release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EterNexus-Release
+          path: |
+            EterNexus\EterNexus\Release\
+            EterNexus\EterNexus\bin\Release\
